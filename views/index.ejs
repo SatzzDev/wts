@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SatzzDev Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+<!-- Navigation Bar -->
+<nav class="bg-gray-800 shadow-md w-full fixed top-0 z-10">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<div class="flex items-center space-x-4">
+<img src="images/logo.png" alt="SatzzDev Logo" class="h-10 w-10">
+<span class="text-xl font-bold text-blue-400">SatzzDev</span>
+</div>
+
+<!-- Hamburger Button for Mobile -->
+<div class="lg:hidden flex items-center">
+<button id="menu-toggle" class="text-gray-200 focus:outline-none">
+<i class="uil uil-bars text-2xl"></i>
+</button>
+</div>
+
+<!-- Navigation Links -->
+<ul id="nav-menu" class="hidden lg:flex space-x-6">
+  <li><a href="/" class="hover:text-blue-300 flex items-center"><i class="uil uil-estate mr-2"></i>Home</a></li>
+  <li><a href="/spotify" class="hover:text-blue-300 flex items-center"><i class="uil uil-music mr-2"></i>Spotify</a></li>
+  <li><a href="/gempa" class="hover:text-blue-300 flex items-center"><i class="uil uil-cloud-showers-heavy mr-2"></i>Info Gempa</a></li>
+  <li><a href="/jadwal-sholat" class="hover:text-blue-300 flex items-center"><i class="uil uil-schedule mr-2"></i>Jadwal Sholat</a></li>
+</ul>
+</div>
+
+<!-- Mobile Menu -->
+<ul id="mobile-menu" class="lg:hidden hidden flex-col space-y-4 p-4 bg-gray-800 text-center">
+  <li><a href="/" class="hover:text-blue-300 flex items-center"><i class="uil uil-estate mr-2"></i>Home</a></li>
+  <li><a href="/spotify" class="hover:text-blue-300 flex items-center"><i class="uil uil-music mr-2"></i>Spotify</a></li>
+  <li><a href="/gempa" class="hover:text-blue-300 flex items-center"><i class="uil uil-cloud-showers-heavy mr-2"></i>Info Gempa</a></li>
+  <li><a href="/jadwal-sholat" class="hover:text-blue-300 flex items-center"><i class="uil uil-schedule mr-2"></i>Jadwal Sholat</a></li>
+</ul>
+</nav>
+
+
+<!-- Main Content Section -->
+<section class="pt-24 px-6">
+<div class="max-w-7xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+<div class="flex justify-between items-center mb-6">
+<h1 class="text-3xl font-bold text-blue-600">Dashboard</h1>
+</div>
+<h2 class="text-2xl font-semibold mb-4">Welcome Home!</h2>
+
+<!-- Vue.js Integration -->
+<div id="app">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+<div v-for="(song, index) in songs" :key="index" class="bg-gray-700 rounded-lg overflow-hidden shadow-md">
+<img :src="song.image" :alt="song.title" class="w-full h-48 object-cover">
+<div class="p-4 flex justify-between items-center">
+<span class="text-lg font-bold">{{ song.title }}</span>
+<button @click="togglePlay(song.audio, index)" class="text-blue-500 hover:text-blue-700">
+<i :class="isPlaying && currentSongIndex === index ? 'uil uil-pause-circle' : 'uil uil-play-circle'" class="text-3xl"></i>
+</button>
+</div>
+</div>
+</div>
+<audio ref="audioPlayer" @ended="stopAudio"></audio>
+</div>
+</div>
+</section>
+
+<!-- Vue.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+document.getElementById('menu-toggle').addEventListener('click', () => {
+const menu = document.getElementById('mobile-menu');
+menu.classList.toggle('hidden');
+});
+new Vue({
+el: '#app',
+data: {
+songs: [
+{ title: 'AURA', image: 'https://i.scdn.co/image/ab67616d0000b273bb7e0eb64fae8dbd5b9d2a12', audio: 'AURA.mp3' },
+{ title: 'GLORY', image: 'https://i.scdn.co/image/ab67616d0000b273038df84fc6b58a113e26d52d', audio: 'GLORY.mp3' },
+{ title: 'AVANGARD', image: 'https://i.scdn.co/image/ab67616d0000b273e4abb0fb75117230282cd98c', audio: 'AVANGARD.mp3' }
+],
+isPlaying: false,
+currentSongIndex: null
+},
+methods: {
+togglePlay(audioSrc, index) {
+const audio = this.$refs.audioPlayer;
+if (this.currentSongIndex === index && this.isPlaying) {
+audio.pause();
+this.isPlaying = false;
+} else {
+audio.src = audioSrc;
+audio.play();
+this.currentSongIndex = index;
+this.isPlaying = true;
+}
+},
+stopAudio() {
+this.isPlaying = false;
+this.currentSongIndex = null;
+}
+}
+});
+</script>
+
+</body>
+</html>

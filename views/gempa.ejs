@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gempa Terkini - SatzzDev Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+<!-- Navigation Bar -->
+<nav class="bg-gray-800 shadow-md w-full fixed top-0 z-10">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<div class="flex items-center space-x-4">
+<img src="images/logo.png" alt="SatzzDev Logo" class="h-10 w-10">
+<span class="text-xl font-bold text-blue-400">SatzzDev</span>
+</div>
+
+<!-- Hamburger Button for Mobile -->
+<div class="lg:hidden flex items-center">
+<button id="menu-toggle" class="text-gray-200 focus:outline-none">
+<i class="uil uil-bars text-2xl"></i>
+</button>
+</div>
+
+<!-- Navigation Links -->
+<ul id="nav-menu" class="hidden lg:flex space-x-6">
+  <li><a href="/" class="hover:text-blue-300"><i class="uil uil-estate"></i> Home</a></li>
+  <li><a href="/spotify" class="hover:text-blue-300"><i class="uil uil-music"></i> Spotify</a></li>
+  <li><a href="/gempa" class="hover:text-blue-300 flex items-center"><i class="uil uil-cloud-showers-heavy mr-2"></i>Info Gempa</a></li>
+  <li><a href="/jadwal-sholat" class="hover:text-blue-300 flex items-center"><i class="uil uil-schedule mr-2"></i>Jadwal Sholat</a></li>
+
+</ul>
+</div>
+
+<!-- Mobile Menu -->
+<ul id="mobile-menu" class="lg:hidden hidden flex-col space-y-4 p-4 bg-gray-800 text-center">
+  <li><a href="#" class="hover:text-blue-300"><i class="uil uil-estate"></i> Home</a></li>
+  <li><a href="/spotify" class="hover:text-blue-300"><i class="uil uil-music"></i> Spotify</a></li>
+  <li><a href="/gempa" class="hover:text-blue-300"><i class="uil uil-earth"></i> Info Gempa</a></li>
+  <li><a href="/jadwal-sholat" class="hover:text-blue-300"><i class="uil uil-pray"></i> Jadwal Sholat</a></li>
+
+</ul>
+</nav>
+
+<!-- Main Content -->
+<div id="app" class="pt-24 px-6">
+<div class="container mx-auto">
+<div class="bg-gray-800 shadow-lg rounded-lg p-6">
+<h2 class="text-3xl font-bold text-center mb-6">Informasi Gempa Terkini</h2>
+
+<!-- Earthquake Data Section -->
+<div class="space-y-4">
+<div class="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-700 p-4 rounded-lg shadow-md">
+<div class="w-full sm:w-2/3">
+  <p class="text-lg"><i class="uil uil-map-marker"></i> <strong>Wilayah:</strong> <%= gempa.Infogempa.gempa.Wilayah %></p>
+  <p class="text-lg"><i class="uil uil-bolt"></i> <strong>Magnitudo:</strong> <%= gempa.Infogempa.gempa.Magnitude %></p>
+  <p class="text-lg"><i class="uil uil-water"></i> <strong>Kedalaman:</strong> <%= gempa.Infogempa.gempa.Kedalaman %></p>
+  <p class="text-lg"><i class="uil uil-map"></i> <strong>Koordinat:</strong> <%= gempa.Infogempa.gempa.Coordinates %></p>
+  <p class="text-lg"><i class="uil uil-calendar-alt"></i> <strong>Tanggal:</strong> <%= gempa.Infogempa.gempa.Tanggal %></p>
+  <p class="text-lg"><i class="uil uil-clock"></i> <strong>Jam:</strong> <%= gempa.Infogempa.gempa.Jam %></p>
+</div>
+<div class="w-full sm:w-1/3 mt-4 sm:mt-0">
+<img src="https://data.bmkg.go.id/DataMKG/TEWS/<%= gempa.Infogempa.gempa.Shakemap %>" alt="Shakemap" class="rounded-lg shadow-md">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.getElementById('menu-toggle').addEventListener('click', () => {
+const menu = document.getElementById('mobile-menu');
+menu.classList.toggle('hidden');
+});
+</script>
+</body>
+</html>
