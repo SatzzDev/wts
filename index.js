@@ -3,13 +3,25 @@ const path = require('path');
 const fs = require('fs');
 const axios = require("axios")
 const cheerio = require("cheerio")
+const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-app.set('view engine', 'ejs')
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+
+// Tell Express where the views are located
+app.set('views', path.join(__dirname, 'views'));
+
+// Use express-ejs-layouts
+app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')))
+// Set the default layout file (ensure this layout file exists in the 'views/layouts' folder)
+app.set('layout', 'layouts/main');
+
+
 
 
 async function getAllProvinces() {
@@ -86,19 +98,25 @@ error: error.message
 
 
 app.get('/', (req, res) => {
-    res.render('index');
+  res.render('index', { title: 'Home' });
 });
 
 app.get('/spotify', (req, res) => {
-    res.render('spotify');
+  res.render('spotify', { title: 'Spotify Downloader' });
 });
+
+
+app.get('/lyrics', (req, res) => {
+  res.render('lyrics', { title: 'Lyrics Search' });
+});
+
 
 app.get('/gempa', async (req, res) => {
   try {
     const response = await axios.get('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json');
     const gempaData = response.data;
 
-    res.render('gempa', { gempa: gempaData });
+    res.render('gempa', { gempa: gempaData, title: 'Gempa Terkini' });
   } catch (error) {
     console.error('Error fetching earthquake data:', error);
     res.status(500).send('Error retrieving data');
@@ -109,7 +127,7 @@ app.get('/gempa', async (req, res) => {
 app.get('/jadwal-sholat', async (req, res) => {
   try {
     const provinces = await getAllProvinces();  // Function you provided
-    res.render('jadwal-sholat', { provinces });
+    res.render('jadwal-sholat', { provinces, title: 'Jadwal Sholat' });
   } catch (error) {
     console.error('Error loading provinces:', error);
     res.status(500).send('Error loading data');
@@ -125,7 +143,13 @@ app.get('/api/jadwal-sholat', async (req, res) => {
   const schedule = await jadwalSholat(kode);  // Function you provided
   res.json(schedule);
 });
-
+// Middleware to handle 404 errors (Not Found)
+app.use((req, res, next) => {
+    res.status(404).render('404', { 
+        title: 'Page Not Found', 
+        url: req.originalUrl 
+    });
+});
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

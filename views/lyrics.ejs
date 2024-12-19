@@ -1,0 +1,90 @@
+  <div class="container-fluid">
+    <!-- Header Section -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">
+        <i class="fas fa-music text-primary"></i> Lyrics Search
+      </h1>
+    </div>
+
+    <!-- App Content -->
+    <div class="container-fluid" id="app">
+      <div class="card shadow mb-4">
+        <div class="card-body bg-light text-dark">
+          <h4 class="font-weight-bold text-center text-primary mb-4">
+            <i class="fas fa-search"></i> Find Your Favorite Lyrics
+          </h4>
+
+          <!-- Search Section -->
+          <div class="mb-6 flex">
+            <div class="input-group">
+              <input
+                v-model="query"
+                @keyup.enter="searchLyrics"
+                type="text"
+                class="form-control bg-light border-0 small"
+                placeholder="Enter song title or artist..."
+                aria-label="Search"
+                aria-describedby="basic-addon2"
+              />
+              <div class="input-group-append">
+                <button @click="searchLyrics" class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results Section -->
+          <div v-if="lyrics" class="mt-4">
+            <h3 class="text-primary font-weight-bold mb-3">
+              <i class="fas fa-microphone-alt"></i> {{ songTitle }}
+            </h3>
+            <pre class="bg-white p-4 rounded-md shadow-sm text-dark" style="white-space: pre-wrap; word-wrap: break-word;">
+              {{ lyrics }}
+            </pre>
+          </div>
+          <p v-else-if="error" class="text-danger text-center mt-4">
+            <i class="fas fa-exclamation-triangle"></i> {{ error }}
+          </p>
+          <p v-else class="text-muted text-center mt-4">
+            <i class="fas fa-info-circle"></i> Enter a song title or artist to search for lyrics.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vue.js Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          query: '',
+          lyrics: null,
+          songTitle: '',
+          error: ''
+        },
+        methods: {
+          async searchLyrics() {
+            if (!this.query.trim()) return;
+
+            this.error = '';
+            this.lyrics = null;
+            try {
+              const response = await fetch(`https://meitang.xyz/lirik?text=${encodeURIComponent(this.query)}`);
+              const data = await response.json();
+              if (data.status) {
+                this.songTitle = data.result.title;
+                this.lyrics = data.result.lyrics;
+              } else {
+                this.error = 'Lyrics not found. Please try another query.';
+              }
+            } catch (error) {
+              console.error('Error fetching lyrics:', error);
+              this.error = 'Failed to fetch lyrics. Please try again later.';
+            }
+          }
+        }
+      });
+    </script>
+  </div>

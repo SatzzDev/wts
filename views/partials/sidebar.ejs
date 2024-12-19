@@ -1,0 +1,56 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+<div class="sidebar-brand-icon">
+<i class="fas fa-user-secret"></i>
+</div>
+<div class="sidebar-brand-text mx-3">Satzz <sup>Dev</sup></div>
+</a>
+<hr class="sidebar-divider my-0">
+
+<!-- Home Link -->
+<li class="nav-item <%= (title === 'Home' ? 'active' : '') %>">
+<a class="nav-link" href="/">
+<i class="fas fa-fw fa-home"></i>
+<span>Dashboard</span>
+</a>
+</li>
+
+<hr class="sidebar-divider">
+<div class="sidebar-heading">Interface</div>
+
+<!-- Spotify Link -->
+<li class="nav-item <%= (title === 'Spotify Downloader' ? 'active' : '') %>">
+<a class="nav-link" href="/spotify">
+<i class="fas fa-fw fa-music"></i>
+<span>Spotify Downloader</span>
+</a>
+</li>
+
+<!-- Gempa Link -->
+<li class="nav-item <%= (title === 'Gempa Terkini' ? 'active' : '') %>">
+<a class="nav-link" href="/gempa">
+<i class="fas fa-fw fa-bolt"></i>
+<span>Gempa Terkini</span>
+</a>
+</li>
+
+<!-- Jadwal Sholat Link -->
+<li class="nav-item <%= (title === 'Jadwal Sholat' ? 'active' : '') %>">
+<a class="nav-link" href="/jadwal-sholat">
+<i class="fas fa-fw fa-calendar"></i>
+<span>Jadwal Sholat</span>
+</a>
+</li>
+
+<!-- Lyrics Search Link -->
+<li class="nav-item <%= (title === 'Lyrics Search' ? 'active' : '') %>">
+<a class="nav-link" href="/lyrics">
+<i class="fas fa-fw fa-search"></i>
+<span>Lyrics Search</span>
+</a>
+</li>
+<hr class="sidebar-divider d-none d-md-block">
+<div class="text-center d-none d-md-inline">
+<button class="rounded-circle border-0" id="sidebarToggle"></button>
+</div>
+</ul>

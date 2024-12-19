@@ -1,124 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jadwal Sholat - SatzzDev Tools</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-</head>
-<body class="bg-gray-900 text-gray-200">
+<div class="container-fluid" id="app">
+<h1 class="h3 mb-4 text-gray-800">
+<i class="fas fa-mosque text-primary"></i> Jadwal Sholat
+</h1>
+<div class="card shadow mb-4">
+<div class="card-body bg-light text-dark">
+<!-- Province Selection -->
+<div class="mb-4 text-center">
+<label for="provinceSelect" class="font-weight-bold text-gray-700">
+<i class="fas fa-map-marker-alt text-success"></i> Pilih Provinsi
+</label>
+<select
+id="provinceSelect"
+v-model="selectedProvince"
+@change="fetchSchedule"
+class="form-control bg-white text-dark border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+<option disabled value="">Pilih Daerah...</option>
+<option v-for="province in provinces" :value="province[1]" :key="province[1]">{{ province[0] }}</option>
+</select>
+</div>
 
-<!-- Navigation Bar -->
-<nav class="bg-gray-800 shadow-md w-full fixed top-0 z-10">
-  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <div class="flex items-center space-x-4">
-      <img src="images/logo.png" alt="SatzzDev Logo" class="h-10 w-10">
-      <span class="text-xl font-bold text-blue-400">SatzzDev</span>
-    </div>
+<!-- Loading Indicator -->
+<div v-if="loading" class="text-center my-4">
+<i class="fas fa-spinner fa-spin text-primary fa-2x"></i>
+<p>Loading schedule...</p>
+</div>
 
-    <!-- Hamburger Button for Mobile -->
-    <div class="lg:hidden flex items-center">
-      <button id="menu-toggle" class="text-gray-200 focus:outline-none">
-        <i class="uil uil-bars text-2xl"></i>
-      </button>
-    </div>
+<!-- Schedule Display -->
+<div v-if="schedule" class="text-center mt-4">
+<h3 class="text-primary font-weight-bold">
+<i class="fas fa-map-marked-alt"></i> {{ schedule.daerah }}
+</h3>
+<p class="text-gray-600">
+<i class="fas fa-calendar-alt text-info"></i> {{ schedule.tanggal }}
+</p>
 
-    <!-- Navigation Links -->
-    <ul id="nav-menu" class="hidden lg:flex space-x-6">
-      <li><a href="/" class="hover:text-blue-300 flex items-center"><i class="uil uil-estate mr-2"></i>Home</a></li>
-      <li><a href="/spotify" class="hover:text-blue-300 flex items-center"><i class="uil uil-music mr-2"></i>Spotify</a></li>
-      <li><a href="/gempa" class="hover:text-blue-300 flex items-center"><i class="uil uil-cloud-showers-heavy mr-2"></i>Info Gempa</a></li>
-      <li><a href="/jadwal-sholat" class="hover:text-blue-300 flex items-center"><i class="uil uil-schedule mr-2"></i>Jadwal Sholat</a></li>
-    </ul>
-  </div>
+<div class="row mt-4">
+<div
+v-for="(time, key) in schedule.times"
+:key="key"
+class="col-md-6 col-lg-4 mb-3">
+<div class="card border-left-primary shadow h-100 py-2">
+<div class="card-body">
+<div class="text-center">
+<i class="fas fa-clock text-primary fa-2x mb-3"></i>
+<h5 class="text-gray-800 font-weight-bold text-capitalize">
+{{ key }}
+</h5>
+<p class="text-gray-700">{{ time }}</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-  <!-- Mobile Menu -->
-  <ul id="mobile-menu" class="lg:hidden hidden flex-col space-y-4 p-4 bg-gray-800 text-center">
-    <li><a href="/" class="block hover:text-blue-300"><i class="uil uil-estate mr-2"></i>Home</a></li>
-    <li><a href="/gempa" class="block hover:text-blue-300"><i class="uil uil-cloud-showers-heavy mr-2"></i>Gempa</a></li>
-    <li><a href="/spotify" class="block hover:text-blue-300"><i class="uil uil-music mr-2"></i>Spotify</a></li>
-    <li><a href="#" class="hover:text-blue-300"><i class="uil uil-schedule mr-2"></i>Jadwal Sholat</a></li>
-  </ul>
-</nav>
-
-<!-- Main Content -->
-<div id="app" class="pt-24 px-6">
-  <div class="container mx-auto">
-    <div class="bg-gray-800 shadow-lg rounded-lg p-6">
-      <h2 class="text-3xl font-bold text-center mb-6"><i class="uil uil-mosque mr-2"></i>Jadwal Sholat Harian</h2>
-      <!-- Province Selection Form -->
-      <div class="mb-6 flex">
-        <select v-model="selectedProvince" @change="fetchSchedule" class="w-full bg-gray-700 text-gray-300 border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option disabled value="">Pilih Daerah...</option>
-          <option v-for="province in provinces" :value="province[1]" :key="province[1]">{{ province[0] }}</option>
-        </select>
-      </div>
-
-      <!-- Schedule Display Section -->
-      <div v-if="schedule" class="text-center space-y-2">
-        <h3 class="text-2xl font-semibold">{{ schedule.daerah }}</h3>
-        <p class="text-gray-400">{{ schedule.tanggal }} - {{ schedule.bulan }}</p>
-        <div class="grid grid-cols-2 gap-4 mt-4">
-          <div v-for="(time, key) in schedule.times" :key="key" class="bg-gray-700 p-4 rounded-lg flex items-center">
-            <i class="uil uil-clock mr-4 text-blue-400 text-2xl"></i>
-            <div>
-              <p class="text-lg font-semibold capitalize">{{ key }}</p>
-              <p class="text-xl text-blue-400">{{ time }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p v-else class="text-gray-400 text-center">Pilih provinsi untuk melihat jadwal sholat.</p>
-    </div>
-  </div>
+<!-- Empty State -->
+<p v-else-if="!loading" class="text-gray-600 text-center my-4">
+<i class="fas fa-exclamation-circle text-warning"></i> Pilih provinsi untuk melihat jadwal sholat.
+</p>
+</div>
+</div>
 </div>
 
 <!-- Vue.js Integration -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 <script>
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  const menu = document.getElementById('mobile-menu');
-  menu.classList.toggle('hidden');
-});
 new Vue({
-  el: '#app',
-  data: {
-    provinces: <%- JSON.stringify(provinces) %>,
-    selectedProvince: '',
-    schedule: null
-  },
-  methods: {
-    async fetchSchedule() {
-      if (!this.selectedProvince) return;
+el: '#app',
+data: {
+provinces: <%- JSON.stringify(provinces) %>,
+selectedProvince: '',
+schedule: null,
+loading: false,
+},
+methods: {
+async fetchSchedule() {
+if (!this.selectedProvince) return;
 
-      try {
-        const response = await fetch(`/api/jadwal-sholat?kode=${encodeURIComponent(this.selectedProvince)}`);
-        const data = await response.json();
+this.loading = true;
+this.schedule = null;
 
-        if (data.status === 'ok') {
-          this.schedule = {
-            daerah: data.daerah,
-            tanggal: data.tanggal,
-            bulan: data.bulan,
-            times: {
-              Imsyak: data.imsyak,
-              Shubuh: data.shubuh,
-              Terbit: data.terbit,
-              Dhuha: data.dhuha,
-              Dzuhur: data.dzuhur,
-              Ashr: data.ashr,
-              Maghrib: data.maghrib,
-              Isya: data.isya
-            }
-          };
-        }
-      } catch (error) {
-        console.error('Error fetching prayer schedule:', error);
-      }
-    }
-  }
+try {
+const response = await fetch(`/api/jadwal-sholat?kode=${encodeURIComponent(this.selectedProvince)}`);
+const data = await response.json();
+
+if (data.status === 'ok') {
+this.schedule = {
+daerah: data.daerah,
+tanggal: data.tanggal,
+times: {
+Imsyak: data.imsyak,
+Shubuh: data.shubuh,
+Terbit: data.terbit,
+Dhuha: data.dhuha,
+Dzuhur: data.dzuhur,
+Ashr: data.ashr,
+Maghrib: data.maghrib,
+Isya: data.isya,
+},
+};
+} else {
+alert('Jadwal tidak ditemukan untuk daerah yang dipilih.');
+}
+} catch (error) {
+console.error('Error fetching prayer schedule:', error);
+alert('Gagal mengambil jadwal. Silakan coba lagi.');
+} finally {
+this.loading = false;
+}
+},
+},
 });
 </script>
-</body>
-</html>
