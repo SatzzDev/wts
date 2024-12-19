@@ -134,6 +134,12 @@ app.get('/jadwal-sholat', async (req, res) => {
   }
 });
 
+app.get('/api/marquee', async (req, res) => {
+let rus = await axios.get('https://satganzdevs-api.up.railway.app/api/random/motivasi')
+let data = rus.data.data
+res.json(data)
+})
+
 // Fetch prayer schedule
 app.get('/api/jadwal-sholat', async (req, res) => {
   const kode = req.query.kode;

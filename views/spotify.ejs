@@ -1,93 +1,109 @@
-  <div class="container-fluid">
-  <!-- Header Section -->
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
-  <h1 class="h3 mb-0 text-gray-800">
-  <i class="fab fa-spotify text-success"></i> Spotify Downloader
-  </h1>
-  </div>
+<div class="container-fluid">
+<!-- Header Section -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+<h1 class="h3 mb-0 text-gray-800">
+<i class="fab fa-spotify text-success"></i> Spotify Downloader
+</h1>
+</div>
 
-  <!-- Content Wrapper -->
-  <div id="app" class="content-wrapper d-flex flex-column">
-  <div id="content">
-  <div class="container px-4 pt-4">
-  <section>
-  <!-- Search Section -->
-  <div class="bg-light text-dark shadow-lg rounded-lg p-4">
-  <h4 class="font-weight-bold text-center text-primary mb-4">
-  <i class="fas fa-music"></i> Download Your Favorite Tracks
-  </h4>
-  <div class="mb-4 d-flex flex-column flex-md-row">
-  <div class="input-group">
-  <input
-  v-model="query"
-  @keyup.enter="searchSongs"
-  type="text"
-  class="form-control bg-light border-0 small"
-  placeholder="Paste Spotify Link Here..."
-  aria-label="Search"
-  aria-describedby="basic-addon2"
-  />
-  <div class="input-group-append">
-  <button @click="searchSongs" class="btn btn-primary" type="button">
-  <i class="fas fa-search fa-sm"></i>
-  </button>
-  </div>
-  </div>
-  </div>
+<!-- Content Wrapper -->
+<div id="app" class="content-wrapper d-flex flex-column">
+<div id="content">
+<div class="container px-4 pt-4">
+<section>
+<!-- Search Section -->
+<div class="bg-light text-dark shadow-lg rounded-lg p-4">
+<h4 class="font-weight-bold text-center text-primary mb-4">
+<i class="fas fa-music"></i> Download Your Favorite Tracks
+</h4>
+<div class="mb-4 d-flex flex-column flex-md-row">
+<div class="input-group">
+<input
+v-model="query"
+@keyup.enter="searchSongs"
+type="text"
+class="form-control bg-light border-0 small"
+placeholder="Paste Spotify Link Here..."
+aria-label="Search"
+aria-describedby="basic-addon2"
+/>
+<div class="input-group-append">
+<button @click="searchSongs" class="btn btn-primary" type="button">
+<i class="fas fa-search fa-sm"></i>
+</button>
+</div>
+</div>
+</div>
 
-  <!-- Results Section -->
-  <div v-if="songs.length" class="mt-4">
-  <h5 class="text-center text-success mb-4">
-  <i class="fas fa-check-circle"></i> Tracks Found
-  </h5>
-  <div v-for="song in songs" :key="song.judul" class="d-flex align-items-center bg-white p-3 rounded-lg shadow-md mb-3">
-  <img
-  :src="song.gambar_kecil[0].url"
-  alt="Song"
-  class="img-fluid rounded-lg mr-4"
-  style="max-width: 4rem; max-height: 4rem;"
-  />
-  <div class="flex-grow-1">
-  <h5 class="font-weight-bold text-primary">{{ song.judul }}</h5>
-  <p class="text-muted mb-0">{{ song.nama_channel }}</p>
-  </div>
-  <a :href="song.url_audio_v1" class="text-success h4" target="_blank" title="Download">
-  <i class="fas fa-arrow-circle-down"></i>
-  </a>
-  </div>
-  </div>
-  <p v-else class="text-muted text-center">
-  <i class="fas fa-exclamation-circle"></i> No results found. Paste a valid Spotify link and try again.
-  </p>
-  </div>
-  </section>
-  </div>
-  </div>
-  </div>
+<!-- Loading Animation -->
+<div v-if="loading" class="text-center mt-4">
+<div class="animate-spin">
+<i class="fas fa-circle-notch fa-3x text-primary"></i>
+</div>
+<p class="text-muted mt-2">Loading...</p>
+</div>
 
-  <!-- Vue.js Integration -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-  <script>
-  new Vue({
-  el: '#app',
-  data: {
-  query: '',
-  songs: [],
-  },
-  methods: {
-  async searchSongs() {
-  if (!this.query.trim()) return;
+<!-- Results Section -->
+<div v-if="songs.length && !loading" class="mt-4">
+<h5 class="text-center text-success mb-4">
+<i class="fas fa-check-circle"></i> Tracks Found
+</h5>
+<div
+v-for="song in songs"
+:key="song.judul"
+class="d-flex align-items-center bg-white p-3 rounded-lg shadow-md mb-3"
+>
+<img
+:src="song.gambar_kecil[0].url"
+alt="Song"
+class="img-fluid rounded-lg mr-4"
+style="max-width: 4rem; max-height: 4rem;"
+/>
+<div class="flex-grow-1">
+<h5 class="font-weight-bold text-primary">{{ song.judul }}</h5>
+<p class="text-muted mb-0">{{ song.nama_channel }}</p>
+</div>
+<a :href="song.url_audio_v1" class="text-success h4" target="_blank" title="Download">
+<i class="fas fa-arrow-circle-down"></i>
+</a>
+</div>
+</div>
+<p v-else-if="!loading" class="text-muted text-center">
+<i class="fas fa-exclamation-circle"></i> No results found. Paste a valid Spotify link and try again.
+</p>
+</div>
+</section>
+</div>
+</div>
+</div>
 
-  this.songs = []; // Clear previous results
-  try {
-  const response = await fetch(`https://api.agatz.xyz/api/spotifydl?url=${encodeURIComponent(this.query)}`);
-  const songData = await response.json();
-  this.songs.push(JSON.parse(songData.data)); // Parse nested data
-  } catch (error) {
-  console.error('Error fetching data:', error);
-  }
-  },
-  },
-  });
-  </script>
-  </div>
+<!-- Vue.js Integration -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+new Vue({
+el: '#app',
+data: {
+query: '',
+songs: [],
+loading: false, // State for loading animation
+},
+methods: {
+async searchSongs() {
+if (!this.query.trim()) return;
+
+this.songs = []; // Clear previous results
+this.loading = true; // Show loading animation
+try {
+const response = await fetch(`https://api.agatz.xyz/api/spotifydl?url=${encodeURIComponent(this.query)}`);
+const songData = await response.json();
+this.songs.push(JSON.parse(songData.data)); // Parse nested data
+} catch (error) {
+console.error('Error fetching data:', error);
+} finally {
+this.loading = false; // Hide loading animation
+}
+},
+},
+});
+</script>
+</div>
