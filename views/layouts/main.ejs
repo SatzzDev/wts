@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title || "SatzzDev" %></title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.css" rel="stylesheet" type="text/css">
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title || "SatzzDev" %></title>
+<link rel="icon" href="/images/logo.png" type="image/png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.css" rel="stylesheet" type="text/css">
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 <body id="page-top">
-    <div id="wrapper">
-        <!-- Sidebar -->
-        <%- include('../partials/sidebar') %>
-        <!-- End Sidebar -->
+<div id="wrapper">
+<!-- Sidebar -->
+<%- include('../partials/sidebar') %>
+<!-- End Sidebar -->
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <!-- Navbar -->
-                <%- include('../partials/navbar') %>
-                <!-- End Navbar -->
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+<div id="content">
+<!-- Navbar -->
+<%- include('../partials/navbar') %>
+<!-- End Navbar -->
 
-                <!-- Main Content -->
-                <div class="container-fluid">
-                    <%- body %>
-                </div>
-                <!-- End Main Content -->
-            </div>
+<!-- Main Content -->
+<div class="container-fluid">
+<%- body %>
+</div>
+<!-- End Main Content -->
+</div>
 
-            <!-- Footer -->
-            <%- include('../partials/footer') %>
-            <!-- End Footer -->
-        </div>
-    </div>
+<!-- Footer -->
+<%- include('../partials/footer') %>
+<!-- End Footer -->
+</div>
+</div>
 
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/sb-admin-2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="js/sb-admin-2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 </body>
 </html>
