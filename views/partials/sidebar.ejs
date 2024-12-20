@@ -1,56 +1,79 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-<div class="sidebar-brand-icon">
-<i class="fas fa-user-secret"></i>
-</div>
-<div class="sidebar-brand-text mx-3">Satzz <sup>Dev</sup></div>
-</a>
-<hr class="sidebar-divider my-0">
+  <!-- Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+    <div class="sidebar-brand-icon">
+      <i class="fas fa-user-secret"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">Satzz <sup>Dev</sup></div>
+  </a>
 
-<!-- Home Link -->
-<li class="nav-item <%= (title === 'Home' ? 'active' : '') %>">
-<a class="nav-link" href="/">
-<i class="fas fa-fw fa-home"></i>
-<span>Dashboard</span>
-</a>
-</li>
+  <hr class="sidebar-divider my-0">
 
-<hr class="sidebar-divider">
-<div class="sidebar-heading">Interface</div>
+  <!-- Dashboard -->
+  <li class="nav-item <%= (title === 'Home' ? 'active' : '') %>">
+    <a class="nav-link" href="/">
+      <i class="fas fa-fw fa-home"></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
 
-<!-- Spotify Link -->
-<li class="nav-item <%= (title === 'Spotify Downloader' ? 'active' : '') %>">
-<a class="nav-link" href="/spotify">
-<i class="fas fa-fw fa-music"></i>
-<span>Spotify Downloader</span>
-</a>
-</li>
+  <hr class="sidebar-divider">
 
-<!-- Gempa Link -->
-<li class="nav-item <%= (title === 'Gempa Terkini' ? 'active' : '') %>">
-<a class="nav-link" href="/gempa">
-<i class="fas fa-fw fa-bolt"></i>
-<span>Gempa Terkini</span>
-</a>
-</li>
+  <!-- Interface Section -->
+  <div class="sidebar-heading">Interface</div>
+  
+  <!-- Satzz AI -->
+  <li class="nav-item <%= (title === 'Satzz AI' ? 'active' : '') %>">
+    <a class="nav-link" href="/satzzai">
+      <i class="fa fa-fw fa-robot"></i>
+      <span>Satzz AI</span>
+    </a>
+  </li>
+  
+  <!-- Spotify Downloader -->
+  <li class="nav-item <%= (title === 'Spotify Downloader' ? 'active' : '') %>">
+    <a class="nav-link" href="/spotify">
+      <i class="fab fa-fw fa-spotify"></i>
+      <span>Spotify Downloader</span>
+    </a>
+  </li>
 
-<!-- Jadwal Sholat Link -->
-<li class="nav-item <%= (title === 'Jadwal Sholat' ? 'active' : '') %>">
-<a class="nav-link" href="/jadwal-sholat">
-<i class="fas fa-fw fa-calendar"></i>
-<span>Jadwal Sholat</span>
-</a>
-</li>
+  <!-- YouTube Downloader -->
+  <li class="nav-item <%= (title === 'YouTube Downloader' ? 'active' : '') %>">
+    <a class="nav-link" href="/youtube">
+      <i class="fab fa-fw fa-youtube"></i>
+      <span>YouTube Downloader</span>
+    </a>
+  </li>
 
-<!-- Lyrics Search Link -->
-<li class="nav-item <%= (title === 'Lyrics Search' ? 'active' : '') %>">
-<a class="nav-link" href="/lyrics">
-<i class="fas fa-fw fa-search"></i>
-<span>Lyrics Search</span>
-</a>
-</li>
-<hr class="sidebar-divider d-none d-md-block">
-<div class="text-center d-none d-md-inline">
-<button class="rounded-circle border-0" id="sidebarToggle"></button>
-</div>
+  <!-- Lyrics Search -->
+  <li class="nav-item <%= (title === 'Lyrics Search' ? 'active' : '') %>">
+    <a class="nav-link" href="/lyrics">
+      <i class="fas fa-fw fa-search"></i>
+      <span>Lyrics Search</span>
+    </a>
+  </li>
+  
+  <!-- Gempa Terkini -->
+  <li class="nav-item <%= (title === 'Gempa Terkini' ? 'active' : '') %>">
+    <a class="nav-link" href="/gempa">
+      <i class="fas fa-fw fa-bolt"></i>
+      <span>Gempa Terkini</span>
+    </a>
+  </li>
+
+  <!-- Jadwal Sholat -->
+  <li class="nav-item <%= (title === 'Jadwal Sholat' ? 'active' : '') %>">
+    <a class="nav-link" href="/jadwal-sholat">
+      <i class="fas fa-fw fa-calendar"></i>
+      <span>Jadwal Sholat</span>
+    </a>
+  </li>
+
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggle Button -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
 </ul>

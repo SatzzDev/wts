@@ -32,8 +32,39 @@
 <!-- Footer -->
 <%- include('../partials/footer') %>
 <!-- End Footer -->
+<a class="scroll-to-top rounded" href="#page-top" style="display: inline;">
+<i class="fas fa-angle-up"></i>
+</a>
 </div>
 </div>
+<audio src="backsound.mp3" id="adios"></audio>
+  <script>
+  const audio = document.getElementById("adios");
+
+  // Periksa apakah saat ini berada di halaman home
+  const isHomePage = document.title === "Home"; // Ganti sesuai dengan judul halaman home Anda
+  if (!isHomePage) {
+      // Set posisi waktu terakhir jika ada
+      const lastTime = localStorage.getItem("audioTime");
+      if (lastTime) {
+          audio.currentTime = parseFloat(lastTime);
+      }
+
+      // Mulai pemutaran audio
+      audio.play();
+
+      // Simpan waktu audio saat halaman akan di-refresh
+      window.addEventListener("beforeunload", () => {
+          localStorage.setItem("audioTime", audio.currentTime);
+      });
+
+      // Ulangi audio jika selesai
+      audio.addEventListener("ended", () => {
+          audio.currentTime = 0;
+          audio.play();
+      });
+  }
+  </script>
 
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,120 @@
+<div class="container-fluid">
+<!-- Header Section -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+<h1 class="h3 mb-0 text-gray-800">
+<i class="fas fa-robot text-primary"></i> Satzz AI
+</h1>
+</div>
+
+<!-- Chat Interface -->
+<div id="chatApp" class="card shadow mb-4">
+<div class="card-body bg-light text-dark">
+<h4 class="font-weight-bold text-center text-primary mb-4">
+<i class="fas fa-comments"></i> Chat with Satzz AI
+</h4>
+
+<!-- Chat Messages Section -->
+<div class="chat-box bg-white p-3 rounded-lg shadow-sm mb-4" style="max-height: 400px; overflow-y: auto;">
+<div v-for="(msg, index) in messages" :key="index" class="mb-3 d-flex" :class="{'flex-row-reverse': msg.role === 'user'}">
+<!-- User Messages -->
+<div v-if="msg.role === 'user'" class="d-flex align-items-center">
+<div class="bg-primary text-white p-2 rounded-lg d-inline-block">
+{{ msg.content }}
+</div>
+</div>
+
+<!-- AI Messages -->
+<div v-else class="d-flex align-items-center">
+<img
+src="https://i.pinimg.com/736x/d6/dd/38/d6dd38a853e1e2752519fc987eb9aef0.jpg"
+alt="Bot Avatar"
+class="rounded-circle mr-2"
+style="width: 40px; height: 40px;"
+/>
+<div class="bg-secondary text-white p-2 rounded-lg d-inline-block">
+<span v-for="(char, idx) in msg.typedResponse" :key="idx">{{ char }}</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Input Section -->
+<div class="input-group">
+<input
+v-model="userInput"
+@keyup.enter="sendMessage"
+type="text"
+class="form-control bg-light border-2 small"
+placeholder="Type your message here..."
+/>
+<div class="input-group-append">
+<button @click="sendMessage" class="btn btn-primary" type="button">
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Vue.js Integration -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+new Vue({
+el: '#chatApp',
+data: {
+userInput: '',
+messages: [], 
+},
+mounted() {
+this.messages.push({
+role: 'ai',
+content: 'Hello! I am Satzz AI, your virtual assistant. How can I assist you today?',
+typedResponse: '',
+});
+this.typeAIResponse(this.messages[0]); // Tipe sambutan secara bertahap
+},
+methods: {
+async sendMessage() {
+if (!this.userInput.trim()) return;
+this.messages.push({ role: 'user', content: this.userInput });
+const userMessage = this.userInput.trim();
+this.userInput = '';
+const aiMessage = { role: 'ai', typedResponse: '', content: '' };
+this.messages.push(aiMessage);
+try {
+const response = await fetch(
+`https://api.ryzendesu.vip/api/ai/v2/chatgpt?text=${encodeURIComponent(userMessage)}&prompt=Kamu%20adalah%20Satzz%20AI,%20seorang%20asisten%20virtual%20yang%20cerdas%20dan%20ramah,%20dirancang%20untuk%20membantu%20menjawab%20berbagai%20pertanyaan%20dengan%20jelas,%20singkat,%20dan%20profesional.%20Berikan%20informasi%20yang%20akurat%20dan%20relevan%20sesuai%20dengan%20konteks%20yang%20diminta.`
+);
+const data = await response.json();
+aiMessage.content = data.response;
+this.typeAIResponse(aiMessage);
+} catch (error) {
+console.error('Error fetching AI response:', error);
+aiMessage.content = 'Sorry, something went wrong.';
+aiMessage.typedResponse = aiMessage.content;
+}
+},
+typeAIResponse(aiMessage) {
+const chars = aiMessage.content.split('');
+let index = 0;
+const typingInterval = 10; 
+const type = () => {
+if (index < chars.length) {
+aiMessage.typedResponse += chars[index];
+index++;
+setTimeout(type, typingInterval);
+}
+};
+type();
+},
+},
+});
+</script>
+
+<style>
+.chat-box {
+border: 1px solid #e3e6f0;
+border-radius: 10px;
+}
+</style>

@@ -1,12 +1,89 @@
 <div class="container-fluid">
-<!-- Header Section -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-<h1 class="h3 mb-0 text-gray-800">
-<i class="fas fa-home text-primary"></i> Dashboard
-</h1>
+<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+</div>
+<div class="row">
+<!-- Time Card -->
+<div class="col-xl-3 col-md-6 mb-4">
+<div class="card border-left-primary shadow h-100 py-2">
+<div class="card-body">
+<div class="row no-gutters align-items-center">
+<div class="col mr-2">
+<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+Current Time
+</div>
+<!-- Placeholder untuk jam -->
+<div id="currentTime" class="h5 mb-0 font-weight-bold text-gray-800">
+Loading...
+</div>
+</div>
+<div class="col-auto">
+<i class="fas fa-clock fa-2x text-gray-300"></i>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-<!-- Main Content -->
+<!-- Uptime Card -->
+<div class="col-xl-3 col-md-6 mb-4">
+<div class="card border-left-success shadow h-100 py-2">
+<div class="card-body">
+<div class="row no-gutters align-items-center">
+<div class="col mr-2">
+<div class="text-xs font-weight-bold text-success text-uppercase mb-1">System Uptime</div>
+<div id="uptime" class="h5 mb-0 font-weight-bold text-gray-800">Calculating...</div>
+</div>
+<div class="col-auto">
+<i class="fas fa-server fa-2x text-gray-300"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+  
+<!-- Progress Card -->
+<div class="col-xl-3 col-md-6 mb-4">
+<div class="card border-left-info shadow h-100 py-2">
+<div class="card-body">
+<div class="row no-gutters align-items-center">
+<div class="col mr-2">
+<div class="text-xs font-weight-bold text-info text-uppercase mb-1">Web Progress</div>
+<div class="row no-gutters align-items-center">
+<div class="col-auto">
+<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+</div>
+<div class="col">
+<div class="progress progress-sm mr-2">
+<div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-auto">
+<i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Visitors Card -->
+<div class="col-xl-3 col-md-6 mb-4">
+<div class="card border-left-warning shadow h-100 py-2">
+<div class="card-body">
+<div class="row no-gutters align-items-center">
+<div class="col mr-2">
+<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Visitors Count</div>
+<div id="visitor-count" class="h5 mb-0 font-weight-bold text-gray-800">Loading</div>
+</div>
+<div class="col-auto">
+<i class="fas fa-user fa-2x text-gray-300"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="row">
 <!-- Welcome Card -->
 <div class="col-lg-6 mb-4">
@@ -16,7 +93,7 @@
 </div>
 <div class="card-body bg-light">
 <div class="text-center mb-3">
-<img class="img-fluid rounded-lg shadow-sm" src="img/undraw_welcome-cats_tw36.svg" alt="Welcome Image" style="max-height: 300px;">
+<video class="img-fluid rounded-lg shadow-sm" src="Gojo challenges Anos to fight [Edit_AMV] - Arcsxn1um.mp4" alt="Welcome Image" style="max-height: 300px;" autoplay loop></video>
 </div>
 <p class="text-muted text-center">
 We're glad you're here! Explore the features of our web tool and make the most out of it. Enjoy using our platform!
@@ -29,44 +106,38 @@ We're glad you're here! Explore the features of our web tool and make the most o
 </div>
 </div>
 </div>
-
-<!-- Quick Links or Features Section -->
-<div class="col-lg-6 mb-4">
-<div class="card shadow-lg border-0">
-<div class="card-header py-3 bg-info text-white">
-<h6 class="m-0 font-weight-bold">Quick Actions</h6>
-</div>
-<div class="card-body bg-light">
-<div class="d-flex flex-column align-items-center">
-<a href="/jadwal-sholat" class="btn btn-outline-info btn-lg mb-3 w-75">
-<i class="fas fa-clock"></i> View Prayer Times
-</a>
-<a href="/gempa-terkini" class="btn btn-outline-warning btn-lg mb-3 w-75">
-<i class="fas fa-earthquake"></i> Check Earthquakes
-</a>
-<a href="/spotify-downloader" class="btn btn-outline-success btn-lg mb-3 w-75">
-<i class="fas fa-download"></i> Spotify Downloader
-</a>
-<a href="/lyrics-search" class="btn btn-outline-danger btn-lg w-75">
-<i class="fas fa-music"></i> Lyrics Search
-</a>
-</div>
-</div>
-</div>
 </div>
 </div>
 
-<!-- Background Music -->
-<audio src="backsound.mp3" id="adios" style="display: none;"></audio>
 <script>
-document.addEventListener("click", function () {
-const audio = document.getElementById("adios");
-if (audio.paused) audio.play();
-});
-const audio = document.getElementById("adios");
-audio.addEventListener("ended", function () {
-audio.currentTime = 0;
-audio.play();
-});
+async function loadVisitorCount() {
+try {
+const response = await fetch('/visitors');
+const data = await response.json();
+document.getElementById('visitor-count').innerText = data.visitorCount;
+} catch (err) {
+console.error('Failed to load visitor count:', err);
+document.getElementById('visitor-count').innerText = 'Failed to load visitor count.';
+}
+}
+loadVisitorCount();
+function updateTime() {
+const now = new Date();
+const formattedTime = now.toLocaleTimeString('en-US', { hour12: false });
+document.getElementById('currentTime').innerText = formattedTime;
+}
+updateTime();
+setInterval(updateTime, 1000);
+async function fetchUptime() {
+try {
+const response = await fetch('/api/uptime');
+const data = await response.json();
+document.getElementById('uptime').innerText = data;
+} catch (error) {
+console.error('Failed to fetch uptime:', error);
+document.getElementById('uptime').innerText = 'Error fetching uptime';
+}
+}
+fetchUptime();
+setInterval(fetchUptime, 1000);
 </script>
-</div>
