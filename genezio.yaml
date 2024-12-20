@@ -1,0 +1,13 @@
+backend:
+    functions:
+        - entry: index.js
+          handler: handler
+          name: function-express
+          path: .
+          type: httpServer
+    language:
+        name: js
+    path: ./
+name: SatzzWeb
+region: us-east-1
+yamlVersion: 2
